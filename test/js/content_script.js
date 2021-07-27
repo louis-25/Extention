@@ -12,22 +12,33 @@ window.onload = onWindowLoad;
 let div = document.createElement('div')  
 let txt = document.createTextNode('');
 div.style.width= "100px"
-div.style.height= "100px"
+// div.style.height= "100px"
 
 
 window.addEventListener('mouseup',(event)=>{
-  // modal.style.display="flex"
-  div.innerHTML=""
-  let x = event.clientX + 10
-  let y = event.clientY - 100      
+  // modal.style.display="flex"  
+  div.innerHTML= ""
+  txt.nodeValue = ""
+  let x = event.pageX + 10
+  let y = event.pageY - 10      
   div.style.left = `${x}px`;
   div.style.top = `${y}px`; 
-  div.style.position = "absolute"
-  div.style.float = "true"  
-  div.style.backgroundColor="tomato"
+  div.style.display = "inline-block";
+  div.style.position = "absolute";
+  div.style.float = "true";
+  div.style.backgroundColor="tomato";
+  div.style.borderRadius = "10px";
+  div.style.padding = "5px";
+
   txt = document.createTextNode(selectText());
-  div.appendChild(txt)    
-  document.body.appendChild(div)
+  console.log('txt ',txt.nodeValue)
+  console.log('type ',typeof(txt.nodeValue))
+  if(txt.nodeValue != "") { // 드래그된 값이 있을때
+    div.appendChild(txt)    
+    document.body.appendChild(div)
+  }else {
+    div.remove()
+  }
   
   // alert(selectText())
 })
