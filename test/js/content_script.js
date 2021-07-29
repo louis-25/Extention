@@ -31,7 +31,13 @@ window.addEventListener('dblclick',(event)=>{
   div.style.left = `${x}px`
   div.style.top = `${y}px`
   
-  
+  // const headers = new Headers({
+  //   'Access-Control-Allow-Origin': '*'
+  // });
+
+  getApi()
+  // console.log('Fireside ',Fireside)
+
   nameText = document.createTextNode('정동현 (jung dong hyeon)') // 이름
   div.appendChild(nameText);
   div.appendChild(br);
@@ -70,4 +76,19 @@ function selectText() {
       selectionText = document.selection.createRange().text
   }
   return selectionText
+}
+
+async function getApi() {
+  const headers = new Headers({    
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+  });
+
+  await fetch('https://web2.fasoo.com/FiresideAPI/api/user/정동현',{headers})
+  .then(res => {
+    console.log('fireside ',res)
+  })
+  .catch(err => {
+    console.log('error ',err)
+  })
 }
