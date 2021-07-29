@@ -1,68 +1,73 @@
-// // content_script.js
-function onWindowLoad() {
-  console.log("팝업 페이지의 DOM 접근 : ");  
-  // 위 결과는 위 html 파일에서 product_name 아이디의 태그 값인 Injecting Product Name.... 이 된다.  
-}
+$(document).ready(function(){
+  console.log('jquery')
+})
 
-window.onload = onWindowLoad;
-
-// const modal = document.getElementById("modal")
-// var newDIV = document.createElement("div");​
-// newDIV.innerHTML = "새로 생성된 DIV입니다.";
-let div = document.createElement('div')  
+//div 태그 생성
+let div = document.createElement('div');
 let txt = document.createTextNode('');
-div.style.width= "100px"
-// div.style.height= "100px"
+let nameText = document.createTextNode('');
+let chatBtn = document.createElement('button');
+let br = document.createElement('br');
+let br2 = document.createElement('br');
 
+// style
+div.setAttribute('id','modal')
+div.style.width= "200px"
+div.style.position = "absolute"
+div.style.backgroundColor="tomato"
+div.style.borderRadius = "10px"
+div.style.padding = "5px"
 
-window.addEventListener('mouseup',(event)=>{
-  // modal.style.display="flex"  
-  div.innerHTML= ""
+chatBtn.innerText = "chat"
+
+//dblclick - 더블클릭 mouseup - 마우스떼기
+window.addEventListener('dblclick',(event)=>{
+  // modal.style.display="flex"
+  div.innerHTML= ""  
   txt.nodeValue = ""
+  nameText.nodeValue = ""
   let x = event.pageX + 10
-  let y = event.pageY - 10      
-  div.style.left = `${x}px`;
-  div.style.top = `${y}px`; 
-  div.style.display = "inline-block";
-  div.style.position = "absolute";
-  div.style.float = "true";
-  div.style.backgroundColor="tomato";
-  div.style.borderRadius = "10px";
-  div.style.padding = "5px";
+  let y = event.pageY - 10
+  div.style.left = `${x}px`
+  div.style.top = `${y}px`
+  
+  
+  nameText = document.createTextNode('정동현 (jung dong hyeon)') // 이름
+  div.appendChild(nameText);
+  div.appendChild(br);
+  
+  txt = document.createTextNode(selectText())
+  console.log('txt ',txt.nodeValue) // 드래그된 값
 
-  txt = document.createTextNode(selectText());
-  console.log('txt ',txt.nodeValue)
-  console.log('type ',typeof(txt.nodeValue))
-  if(txt.nodeValue != "") { // 드래그된 값이 있을때
-    div.appendChild(txt)    
-    document.body.appendChild(div)
+  if(txt.nodeValue != "") { // 드래그된 값이 있을때    
+    div.appendChild(txt)
+    div.appendChild(br2)
+    div.appendChild(chatBtn)
+    document.body.appendChild(div) // DOM에 추가    
+
   }else {
     div.remove()
   }
-  
-  // alert(selectText())
 })
 
-function selectText() {
-  var selectionText = "";
-  if (document.getSelection) {
-      selectionText = document.getSelection();
-  } else if (document.selection) {
-      selectionText = document.selection.createRange().text;
+window.addEventListener('click', (e)=> {  
+  console.log('click: ',e.target.id)
+  if(e.target.id != 'modal') {
+    div.remove() // 모달이 아닌곳을 클릭하면 닫힌다
   }
-  return selectionText;
+  chrome.runtime.sendMessage({action: "FINISH"}, function(response) {
+    console.log('content_script ',response.farewell);
+});
+})
+
+
+function selectText() {
+  var selectionText = ""
+
+  if (document.getSelection) {
+      selectionText = document.getSelection()
+  } else if (document.selection) {
+      selectionText = document.selection.createRange().text
+  }
+  return selectionText
 }
-
-// chrome.tabs.executeScript({
-//   code:'document.querySelector("body").innerText'
-// }, function(result) {
-//   alert(result[0])
-// });
-
-// let selectedObj = window.getSelection();
-// let selected = selectedObj.getRangeAt(0).toString();
-
-// console.log(selected);
-// document.addEventListener('click',(a)=>{
-//   alert(a)
-// })
