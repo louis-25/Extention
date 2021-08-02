@@ -30,22 +30,24 @@ document.addEventListener('dblclick',async (event)=>{
     // API호출
     let user = await getApi(txt.nodeValue.trim(' ')).catch(e =>{console.log('이상한값')})
     console.log('user ',user)
-
+    try{
     $('.avatar').attr("src",`https://web1.fasoo.com/Fasoo_Human_Resource_Management/photo/${user.sno}.jpg`)
-    $('.title--name').text(user.kname+' ('+user.sno+')')
+    $('.title--name').html('<b>'+user.kname+'</b>'+' ('+user.sno+')')
     $('.title--jikgub').html(user.jikgub)
     $('.info--name').html('<i class="far fa-user"></i>'+user.kname+' / '+user.ename)
     $('.info--dept').html('<i class="far fa-building"></i>'+user.dept_name+'ㆍ'+user.jikchk)
     $('.info--tel').html('<i class="fas fa-phone-alt"></i>'+user.tel_no)
-    $('.info--email').html('<i class="far fa-envelope"></i>'+user.emailaddr)
+    $('.info--email').html(`<i class="far fa-envelope"></i>`+`<a href="mailto:${user.emailaddr}">${user.emailaddr}</a>`)
 
     $('#modal').css('left', x)
     $('#modal').css('top', y)
     $('#modal').css('display', 'flex')
-    
+    } catch(e){
+      console.log('error : ', e)
+    }
   }
 })
-
+$(document).on()(
 window.addEventListener('click', (e)=> {  
   let check = true
   for(let path in e.path) {
@@ -62,6 +64,7 @@ window.addEventListener('click', (e)=> {
     console.log('content_script ',response.farewell);
 });
 })
+)
 
 function selectText() {
   var selectionText = ""
