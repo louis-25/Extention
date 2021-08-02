@@ -12,9 +12,13 @@ let html = '';
 
 //dblclick - 더블클릭 mouseup - 마우스떼기
 document.addEventListener('dblclick',async (event)=>{  
-  console.log('event ',event)
-  if(event.target.id != 'modal') { // 모달창 더블클릭 제외
-    
+  let check = true
+  for(let path in event.path) {
+    if(event.path[path].id == 'modal') {
+      check = false
+    }
+  }    
+  if(check) { // 모달창 더블클릭 제외    
     let x = event.clientX + 10
     let y = event.clientY - 10    
 
@@ -27,6 +31,7 @@ document.addEventListener('dblclick',async (event)=>{
     let user = await getApi(txt.nodeValue.trim(' ')).catch(e =>{console.log('이상한값')})
     console.log('user ',user)
 
+    $('.avatar').attr("src",`https://web1.fasoo.com/Fasoo_Human_Resource_Management/photo/${user.sno}.jpg`)
     $('.title--name').text(user.kname+' ('+user.sno+')')
     $('.title--jikgub').html(user.jikgub)
     $('.info--name').html('<i class="far fa-user"></i>'+user.kname+' / '+user.ename)
@@ -42,11 +47,13 @@ document.addEventListener('dblclick',async (event)=>{
 })
 
 window.addEventListener('click', (e)=> {  
+  let check = true
   for(let path in e.path) {
-    console.log('path ',path.value)
+    if(e.path[path].id == 'modal') {
+      check = false
+    }
   }  
-  if(e.target.id != 'modal') {
-    // div.remove() // 모달이 아닌곳을 클릭하면 닫힌다
+  if(check) { // 모달이 아닌곳을 클릭하면 닫힌다
     $('#modal').hide()
   }
   
