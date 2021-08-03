@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>    
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> -->
 </head>
 <body>
     <div id="modal">        
         <div class="title">
             <div class="title--left">
-                <img alt="avatar" class="avatar"></img>
+                <img alt="avatar" class="avatar"><div class="gunmu"></div></img>                
             </div>
             <div class="title--right">
                 <div class="title--name"><b>donghyeon</b> (FS0709)</div>
@@ -16,16 +16,22 @@
         </div>        
         
         <div class="info">
-            <li class="info--name"><i class="far fa-user"></i>정동현 / Jung Dong Hyeon</li>
-            <li class="info--dept"><i class="far fa-building"></i>랩소디개발팀ㆍ팀원</li>
-            <li class="info--tel"><i class="fas fa-phone-alt"></i>010-8240-3912</li>
-            <li class="info--email"><i class="far fa-envelope"></i>dongdev@fasoo.com</li>            
+            <div class="info--line"><img class="user_icon icon--size"><li class="info--name info--content">정동현 / Jung Dong Hyeon</li></div>
+            <div class="info--line"><img class="building_icon icon--size"><li class="info--dept info--content">랩소디개발팀ㆍ팀원</li></div>
+            <div class="info--line"><img class="phone_icon icon--size"><li class="info--tel info--content">010-8240-3912</li></div>
+            <div class="info--line"><img class="email_icon icon--size"><li class="info--email info--content">dongdev@fasoo.com</li></div>
+            <div id="hero" class="info--line"><img class="hero_icon"/><img class="hero_img info--content" style="width:60px; height:13px; margin-top:3px"/></div>
         </div>
         
         <button class="chatBtn">1:1 채팅</button>
     </div>
 </body>
 <style>
+    .icon--size{
+        width: 18px;
+        height: 18px;
+    }
+
     #modal{
         top: 100px;
         left: 100px;
@@ -43,30 +49,48 @@
         z-index: 9;
     }
     
+    img{
+        display: inline;
+    }
+
     .title {
         display: flex;
         margin: 10px 0;
     }
-    .info {
-        margin-left: 20px;
+
+    .title--left {
+        position: relative;
     }
+
+    .title--gnmu {
+        color: #05C072;
+    }
+
+    .info {        
+        margin-left: 15px;
+    }
+
+    .info--line {
+        display: flex;
+        margin-bottom: 10px;
+    }    
 
     .info li {
-        list-style: none;
-        margin-bottom: 7px;                
-    }
+        list-style: none;                     
+    }    
 
-    .info li i {
-        margin-right: 7px;
+    .info--content {
+        margin-left: 7px;
     }
 
     .avatar {
         width: 40px;
         height: 40px;
+        position: relative;
         border-radius: 50%;
         margin: 0 10px;
         background: #CFF1F1
-    }
+    }    
 
     .chatBtn{
         width: 240px;
@@ -76,9 +100,19 @@
         border-radius: 5px;        
         outline: 0;
         border: 0;               
-        margin: auto;
-        margin-bottom: 15px;        
+        margin: 2% auto 5%;         
         cursor: pointer;
-    }    
+    }
+
+    .gunmu{
+        width: 9px;
+        height: 9px;
+        top: 65%;
+        left: 65%;
+        position: absolute;        
+        border-radius: 50%;
+        border: 1px solid white;
+        background-color: #05C072;
+    }
 </style>
 </html>

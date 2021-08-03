@@ -19,7 +19,16 @@
       "js": ["js/jquery-3.6.0.min.js","js/content_script.js"]
     }
   ],  
-  "web_accessible_resources":["modal.html"],
+  "web_accessible_resources":[
+    "modal.html",
+    "images/building.png",
+    "images/user.png",
+    "images/hero.png",
+    "images/hero_icon.png",    
+    "images/phone.png",
+    "images/mobilephone.png",
+    "images/email.png"    
+  ],
   "permissions": [
     "activeTab",
     "tabs",

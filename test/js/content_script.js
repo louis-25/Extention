@@ -15,7 +15,7 @@ document.addEventListener('dblclick',async (event)=>{
   let check = true
   for(let path in event.path) {
     if(event.path[path].id == 'modal') {
-      check = false
+      check = false //모달창이 더블클릭된 경우
     }
   }    
   if(check) { // 모달창 더블클릭 제외    
@@ -31,26 +31,45 @@ document.addEventListener('dblclick',async (event)=>{
     let user = await getApi(txt.nodeValue.trim(' ')).catch(e =>{console.log('이상한값')})
     console.log('user ',user)
     try{
-    $('.avatar').attr("src",`https://web1.fasoo.com/Fasoo_Human_Resource_Management/photo/${user.sno}.jpg`)
-    $('.title--name').html('<b>'+user.kname+'</b>'+' / '+user.sno)
-    $('.title--gnmu').html('근무 중')
-    $('.info--name').html('<i class="far fa-user"></i>'+user.kname+' / '+user.ename)
-    if(user.hero_code == 1){ // 일반사원
-      $('.info--dept').html('<i class="far fa-building"></i>'+user.dept_name+'ㆍ'+user.jikchk+'ㆍ'+user.jikgub)
-    }else if(user.hero_code == 0){ // 히어로
-      $('.info--dept').html('<i class="far fa-building"></i>'+user.dept_name+'ㆍ'+user.jikchk+'ㆍ'+user.jikgub+'<img src="/hero.png" alt="hero"></img>')
-    }
-    $('.info--tel').html('<i class="fas fa-phone-alt"></i>'+user.tel_no)
-    $('.info--email').html(`<i class="far fa-envelope"></i>`+`<a href="mailto:${user.emailaddr}">${user.emailaddr}</a>`)
+      /* 공통 */
+      $('.avatar').attr("src",`https://web1.fasoo.com/Fasoo_Human_Resource_Management/photo/${user.sno}.jpg`)
+      $('.title--name').html('<b>'+user.kname+'</b>'+' / '+user.sno)    
+      $('.info--name').html(user.kname+' / '+user.ename)
+      $('.info--dept').html(user.dept_name+'ㆍ'+user.jikchk+'ㆍ'+user.jikgub)
+      $('.info--tel').html(user.tel_no)
+      $('.info--email').html(`<a href="mailto:${user.emailaddr}">${user.emailaddr}</a>`)
+      // icon
+      $('.user_icon').attr('src',`${chrome.runtime.getURL("../images/user.png")}`)
+      $('.building_icon').attr('src',`${chrome.runtime.getURL("../images/building.png")}`)
+      $('.phone_icon').attr('src',`${chrome.runtime.getURL("../images/phone.png")}`)
+      $('.email_icon').attr('src',`${chrome.runtime.getURL("../images/email.png")}`)          
 
-    $('#modal').css('left', x)
-    $('#modal').css('top', y)
-    $('#modal').css('display', 'flex')
-    } catch(e){
+      /* Hero */
+      if(user.hero_code == 0){ // 일반사원        
+        $('#hero').css('display','none')        
+      }
+      else if(user.hero_code == 1){ // 히어로        
+        $('.hero_icon').attr('src',`${chrome.runtime.getURL("../images/hero_icon.png")}`)
+        $('.hero_img').attr('src',`${chrome.runtime.getURL("../images/hero.png")}`)
+        $('#hero').css('display','flex')
+      }
+      /* 근무 */
+      if(user.gun_code == 0) { // 근무중
+        $('.title--gnmu').html('근무 중')
+      }else {
+
+      }
+
+      /* 모달창 보임 */
+      $('#modal').css('left', x)
+      $('#modal').css('top', y)
+      $('#modal').css('display', 'flex')
+    }catch(e){
       console.log('error : ', e)
     }
   }
 })
+
 $(document).on()(
 window.addEventListener('click', (e)=> {  
   let check = true
@@ -60,13 +79,12 @@ window.addEventListener('click', (e)=> {
     }
   }  
   if(check) { // 모달이 아닌곳을 클릭하면 닫힌다
-    $('#modal').hide()
+    $('#modal').css('display','none')
   }
   
-
   chrome.runtime.sendMessage({action: "FINISH"}, function(response) {
     console.log('content_script ',response.farewell);
-});
+  });
 })
 )
 
