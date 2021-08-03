@@ -32,10 +32,14 @@ document.addEventListener('dblclick',async (event)=>{
     console.log('user ',user)
     try{
     $('.avatar').attr("src",`https://web1.fasoo.com/Fasoo_Human_Resource_Management/photo/${user.sno}.jpg`)
-    $('.title--name').html('<b>'+user.kname+'</b>'+' ('+user.sno+')')
-    $('.title--jikgub').html(user.jikgub)
+    $('.title--name').html('<b>'+user.kname+'</b>'+' / '+user.sno)
+    $('.title--gnmu').html('근무 중')
     $('.info--name').html('<i class="far fa-user"></i>'+user.kname+' / '+user.ename)
-    $('.info--dept').html('<i class="far fa-building"></i>'+user.dept_name+'ㆍ'+user.jikchk)
+    if(user.hero_code == 1){ // 일반사원
+      $('.info--dept').html('<i class="far fa-building"></i>'+user.dept_name+'ㆍ'+user.jikchk+'ㆍ'+user.jikgub)
+    }else if(user.hero_code == 0){ // 히어로
+      $('.info--dept').html('<i class="far fa-building"></i>'+user.dept_name+'ㆍ'+user.jikchk+'ㆍ'+user.jikgub+'<img src="/hero.png" alt="hero"></img>')
+    }
     $('.info--tel').html('<i class="fas fa-phone-alt"></i>'+user.tel_no)
     $('.info--email').html(`<i class="far fa-envelope"></i>`+`<a href="mailto:${user.emailaddr}">${user.emailaddr}</a>`)
 
