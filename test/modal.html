@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>    
-    <!-- <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> -->
+<head>        
+    <meta name="viewport" content="target-densitydpi=device-dpi, user-scalable=0, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, width=device-width" />
 </head>
 <body>
     <div id="modal">        
@@ -26,10 +26,20 @@
         <button class="chatBtn">1:1 채팅</button>
     </div>
 </body>
-<style>
-    .icon--size{
-        width: 18px;
-        height: 18px;
+<style>    
+    :root{
+        /* Color */
+        --color-balck:#28292B;
+        --color-green:#05C072;
+        --color-white:#FFF;
+        --color-blue:#3182F6;
+
+        --border-color:#D7D8DB;
+        --avatar-background:#CFF1F1;
+    }
+
+    img {
+        image-rendering: auto;
     }
 
     #modal{
@@ -38,20 +48,18 @@
         width: 270px;
         /* height: 270px; */
         position: fixed;
-        background-color: #FFFFFF;
+        background-color:var(--color-white);
         font-family: Noto sans-serif CJK KR;
-        border: 1px solid #D7D8DB;
+        font-size: 12px;
+        color: var(--color-balck);
+        border: 1px solid var(--border-color);
         border-radius: 5px;
         box-sizing: border-box;
         box-shadow: 5px 5px 20px rgba(62, 63, 66, 0.12);
         display: none;
         flex-direction: column;
         z-index: 9;
-    }
-    
-    img{
-        display: inline;
-    }
+    }    
 
     .title {
         display: flex;
@@ -60,14 +68,21 @@
 
     .title--left {
         position: relative;
-    }
+    }    
 
     .title--gnmu {
-        color: #05C072;
+        color: var(--color-green);
+        margin-top: 5px;
+    }
+    
+    .icon--size{
+        width: 18px;
+        height: 18px;
     }
 
     .info {        
         margin-left: 15px;
+        color: var(--color-balck);
     }
 
     .info--line {
@@ -88,15 +103,16 @@
         height: 40px;
         position: relative;
         border-radius: 50%;
-        margin: 0 10px;
-        background: #CFF1F1
+        margin: 0 10px 0 15px;
+        overflow: hidden;
+        background: var(--avatar-background);
     }    
 
     .chatBtn{
         width: 240px;
         height: 30px;
-        color: #FFFFFF;
-        background-color: #3182F6;
+        color: var(--color-white);
+        background-color: var(--color-blue);
         border-radius: 5px;        
         outline: 0;
         border: 0;               
@@ -111,8 +127,8 @@
         left: 65%;
         position: absolute;        
         border-radius: 50%;
-        border: 1px solid white;
-        background-color: #05C072;
+        border: 1px solid var(--color-white);
+        background-color: var(--color-green);
     }
 </style>
 </html>

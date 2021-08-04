@@ -42,7 +42,7 @@ document.addEventListener('dblclick',async (event)=>{
       $('.user_icon').attr('src',`${chrome.runtime.getURL("../images/user.png")}`)
       $('.building_icon').attr('src',`${chrome.runtime.getURL("../images/building.png")}`)
       $('.phone_icon').attr('src',`${chrome.runtime.getURL("../images/phone.png")}`)
-      $('.email_icon').attr('src',`${chrome.runtime.getURL("../images/email.png")}`)          
+      $('.email_icon').attr('src',`${chrome.runtime.getURL("../images/email.png")}`)
 
       /* Hero */
       if(user.hero_code == 0){ // 일반사원        
@@ -54,10 +54,47 @@ document.addEventListener('dblclick',async (event)=>{
         $('#hero').css('display','flex')
       }
       /* 근무 */
-      if(user.gun_code == 0) { // 근무중
-        $('.title--gnmu').html('근무 중')
-      }else {
-
+      if(user.gun_code == 0){ // 초록
+        $('.title--gnmu').css('color','#25C16F')
+        $('.gunmu').css('background-color','#05C072')
+      }else { // 빨강
+        $('.title--gnmu').css('color','#F6705E')
+        $('.gunmu').css('background-color','#EF5350')
+      }
+      switch((user.gun_code).toString()){
+        case '0': // 근무
+          $('.title--gnmu').html('근무 중')          
+          break; 
+        case '1': // 연차
+          $('.title--gnmu').html('연차휴가')          
+          break;
+        case '2':
+          $('.title--gnmu').html('오전반차')          
+          break;
+        case '3':
+          $('.title--gnmu').html('오후반차')          
+          break;
+        case '4':
+          $('.title--gnmu').html('경조휴가')          
+          break;
+        case '5':
+          $('.title--gnmu').html('리프레쉬')          
+          break;        
+        case '6':
+          $('.title--gnmu').html('대체휴가')          
+          break;
+        case '7':
+          $('.title--gnmu').html('공가오전+반차')
+          break;
+        case '10':
+          $('.title--gnmu').html('공가')          
+          break;
+        case '11':
+          $('.title--gnmu').html('공가(오전)')          
+          break;
+        case '12':
+          $('.title--gnmu').html('공가(오후)')          
+          break;
       }
 
       /* 모달창 보임 */
@@ -70,7 +107,6 @@ document.addEventListener('dblclick',async (event)=>{
   }
 })
 
-$(document).on()(
 window.addEventListener('click', (e)=> {  
   let check = true
   for(let path in e.path) {
@@ -82,26 +118,21 @@ window.addEventListener('click', (e)=> {
     $('#modal').css('display','none')
   }
   
-  chrome.runtime.sendMessage({action: "FINISH"}, function(response) {
-    console.log('content_script ',response.farewell);
-  });
+  // chrome.runtime.sendMessage({action: "FINISH"}, function(response) {
+  //   console.log('content_script ',response.farewell);
+  // });
 })
-)
 
 function selectText() {
   var selectionText = ""
   
-  if (document.getSelection) {
-      selectionText = document.getSelection()
-  } else if (document.selection) {
-      selectionText = document.selection.createRange().text
+  if (window.getSelection) {
+      selectionText = window.getSelection().toString().trim()
+  } else if (window.selection) {
+      selectionText = window.selection.createRange().text
   }
   return selectionText
 }
-
-getSelectedText = function() {
-  return window.getSelection().toString().trim();
-};
 
 async function getApi(userName) {
   let response = await fetch('https://web2.fasoo.com/FiresideAPI/api/user/'+userName)
