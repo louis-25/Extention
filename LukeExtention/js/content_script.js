@@ -2,23 +2,24 @@
 
 $(document).ready(function () {
   fetch(chrome.runtime.getURL('/modal.html')).then(r => r.text()).then(html => {
-    document.body.insertAdjacentHTML('beforeend', html);
+    document.body.insertAdjacentHTML('beforeend', html); // 모달창html 삽입
   });
 })
+
 let userId = ""
+
 // 더블클릭
 $(document).on('dblclick', async (event) => {
   let check = true
   let sameName = ""
-  console.log('dblclick ',event)
-  // console.log('screen.width ',screen.availWidth)
-  // console.log('screen.height ',screen.availHeight)
-  // console.log('window.outerWidth ',window.outerWidth)
-  // console.log('window.outerHeight ',window.outerHeight)
-  
-  for (let path in event.path) {
-    if (event.path[path].id == 'modal') {
+
+  for (let path in event.originalEvent.path) {
+    try{
+    if (event.originalEvent.path[path].id == 'modal') {
       check = false //모달창이 더블클릭된 경우
+    }
+    }catch(e){
+      console.log(e)
     }
   }
   if (check) { // 모달창 더블클릭 제외
@@ -28,41 +29,33 @@ $(document).on('dblclick', async (event) => {
     let windowY = window.innerHeight
     let directionX = false // true - 왼쪽방향
     let directionY = false // true - 위쪽방향
-    if((x + 270) > windowX){
+    if ((x + 270) > windowX) {
       directionX = true
     }
-    if((y + 250) > windowY ){
+    if ((y + 250) > windowY) {
       directionY = true
     }
-    console.log('window.innerWidth ', windowX)
-    console.log('window.innerHeight ',windowY)
-    
-    console.log('x ' + x + ' y ' + y) // 좌표
-    
 
-    let txt = ""
-
-    try{
-    sameName = selectText()
-    txt = (document.createTextNode(sameName[0])).nodeValue //선택된 부분의 글자추출
-    console.log('txt ',txt)
-    console.log('sameName ',sameName[1].charAt(sameName[1].length-1)) // 이름의 마지막 문자
+    let name = "" //선택된 이름 담을 변수
+    let abc = "" //동명이인 구분용 변수
+    try {
+      sameName = selectText()            
+      name = (document.createTextNode(sameName[0])).nodeValue //선택된 부분의 글자추출
+      abc = sameName[1][sameName[1].indexOf(name)+name.length] // name다음에 오는 글자      
     }
-    catch(e){
+    catch (e) {
       console.log(e)
     }
     // API호출
-    let arr = ['A','B','C'] // 이름에 포함돼있으면 동명이인
-    let user = await getUser(txt.trim()).catch(e => { console.log(e) })    
-    
-    if(sameName[1] && user && arr.includes(sameName[1].charAt(sameName[1].length-1))) {
-      console.log('동명이인 발견!!')
+    let arr = ['A', 'B', 'C'] // 이름에 포함돼있으면 동명이인
+    let user = await getUser(name.trim()).catch(e => { console.log(e) })
+    if(arr.includes(abc)){      
+      user = await getUser(name+abc).catch(e => { console.log(e) })
+    }
+    else if (sameName[1] && user && arr.includes(sameName[1].charAt(sameName[1].length - 1))) {      
       user = await getUser(sameName[1]).catch(e => { console.log(e) })
     }
-    this.userId = (user.emailaddr).split('@')[0]
-    
-    console.log('user ', user)
-    console.log('userId ',userId)
+    this.userId = (user.emailaddr).split('@')[0] // 이메일ID 추출
 
     // 모달창 세팅
     try {
@@ -85,20 +78,24 @@ $(document).on('dblclick', async (event) => {
       /* 근무상태 구분 */
       setGunState(user.gun_code)
 
+      let subX = 285
+      let subY = 220
+
       /* 모달창 보이기 */
-      if(directionX){
-        $('#modal').css('left', x - 285)
-      }else{
+      if (directionX) {
+        $('#modal').css('left', x - subX)
+      } else {
         $('#modal').css('left', x)
       }
 
-      if(directionY) {
-        $('#modal').css('top', y - 230)
-      }else{
+      if (directionY) {
+        if (user.hero_code == 1) { subY += 28 }
+        else { subY = 220 }
+        $('#modal').css('top', y - subY)
+      } else {
         $('#modal').css('top', y)
       }
-      
-      
+
       $('#modal').css('display', 'flex')
     } catch (e) {
       console.log('error : ', e)
@@ -110,17 +107,22 @@ $(document).on('dblclick', async (event) => {
 $(document).on('click', (e) => {
   console.log('click ', e)
   let check = true
-  for (let path in e.path) { // 클릭요소가 모달창인지 구분
-    if (e.path[path].id == 'modal') {
-      check = false
+  
+  for (let path in e.originalEvent.path) { // 클릭요소가 모달창인지 구분
+    try{
+      if (e.originalEvent.path[path].id == 'modal') {
+        check = false
+      }
+    }catch(e){
+      console.log(e)
     }
   }
+
   if (check) { // 모달이 아닌곳을 클릭하면 닫힌다
     $('#modal').css('display', 'none')
   }
   if (e.target.className == 'chatBtn') {
-    getChat(this.userId)
-    // console.log('chat!! ',this.userId)
+    getChat(this.userId)    
   }
 })
 
@@ -186,12 +188,12 @@ function selectText() {
 
   if (window.getSelection) {
     selectionText = window.getSelection().toString().trim()
-    sameName = window.getSelection().baseNode.nodeValue    
-    console.log('window.getSelection ',window.getSelection())
-    // console.log('selectname ',sameName)
-    
+    sameName = window.getSelection().baseNode.nodeValue
+    console.log('window.getSelection ', window.getSelection())
+    console.log('selectname ',sameName)
+
   } else if (window.selection) {
-    console.log('window.selection ',window.selection)
+    console.log('window.selection ', window.selection)
     selectionText = window.selection.createRange().text
   }
   return [selectionText, sameName]
@@ -210,9 +212,9 @@ function getChat(userId) {
   let url = `http://ecm.dev.fasoo.com:9400/wrapmsgr/view/extension/convoPopup?userId2=${userId}`
 
   let w = 800,
-      h = 650,
-      t = window.top.outerHeight / 2 + window.top.screenY - (h / 2),
-      l = window.top.outerWidth / 2 + window.top.screenX - (w / 2);
+    h = 650,
+    t = window.top.outerHeight / 2 + window.top.screenY - (h / 2),
+    l = window.top.outerWidth / 2 + window.top.screenX - (w / 2);
 
   let popupOption = "left=" + l + ",top=" + t + ",width=" + w + ",height=" + h + ",status=no,menubar=no,toolbar=no,resizable=yes";
 
