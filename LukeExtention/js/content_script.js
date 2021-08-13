@@ -6,6 +6,10 @@ $(document).ready(function () {
   });
 })
 
+$(document).on('scroll', function(){  
+  $('#modal').css('display', 'none')
+})
+
 let userId = ""
 
 // 더블클릭
@@ -208,8 +212,8 @@ async function getUser(userName) {
   return data
 }
 
-function getChat(userId) {
-  let url = `http://ecm.dev.fasoo.com:9400/wrapmsgr/view/extension/convoPopup?userId2=${userId}`
+function getChat(userId) {  
+  let url = `http://wrapsody.fasoo.com:9400/wrapmsgr/view/extension/convoPopup?userId2=${userId}`
 
   let w = 800,
     h = 650,
