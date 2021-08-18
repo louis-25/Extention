@@ -15,14 +15,12 @@
   "content_scripts": [
     {
       "matches": [
-        "https://luke30.fasoo.com/*",
-        "https://web2.fasoo.com/*",
-        "https://web1.fasoo.com/*"        
+        "https://*.fasoo.com/*"
       ],
       "js": ["js/jquery-3.6.0.min.js","js/content_script.js"],
       "all_frames":true
     }
-  ],  
+  ],
   "web_accessible_resources":[
     "modal.html",
     "images/building.png",
@@ -33,12 +31,14 @@
     "images/mobilephone.png",
     "images/email.png"
   ],
+  "icons":{
+    "128":"icon/fireside.png"
+  },
   "permissions": [
     "activeTab",
     "tabs",
-    "https://luke30.fasoo.com/*",
-    "https://web2.fasoo.com/*",
-    "https://web1.fasoo.com/*"
+    "https://*.fasoo.com/*"
+    
   ]
 
 }

@@ -6,7 +6,7 @@ $(document).ready(function () {
   });
 })
 
-$(document).on('scroll', function(){  
+$(document).on('scroll', function(){ // 스크롤 시 모달창 제거
   $('#modal').css('display', 'none')
 })
 
@@ -53,7 +53,7 @@ $(document).on('dblclick', async (event) => {
     // API호출
     let arr = ['A', 'B', 'C'] // 이름에 포함돼있으면 동명이인
     let user = await getUser(name.trim()).catch(e => { console.log(e) })
-    if(arr.includes(abc)){      
+    if(arr.includes(abc)){
       user = await getUser(name+abc).catch(e => { console.log(e) })
     }
     else if (sameName[1] && user && arr.includes(sameName[1].charAt(sameName[1].length - 1))) {      
