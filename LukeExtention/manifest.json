@@ -15,7 +15,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://*.fasoo.com/*"
+        "https://*.fasoo.com/*",
+        "http://*.fasoo.com/*"
       ],
       "js": ["js/jquery-3.6.0.min.js","js/content_script.js"],
       "all_frames":true
@@ -37,7 +38,8 @@
   "permissions": [
     "activeTab",
     "tabs",
-    "https://*.fasoo.com/*"
+    "https://*.fasoo.com/*",
+    "http://*.fasoo.com/*"
     
   ]
 

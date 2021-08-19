@@ -51,7 +51,7 @@ $(document).on('dblclick', async (event) => {
       console.log(e)
     }
     // API호출
-    let arr = ['A', 'B', 'C'] // 이름에 포함돼있으면 동명이인
+    let arr = ['A', 'B', 'C', 'D'] // 이름에 포함돼있으면 동명이인
     let user = await getUser(name.trim()).catch(e => { console.log(e) })
     if(arr.includes(abc)){
       user = await getUser(name+abc).catch(e => { console.log(e) })
@@ -64,7 +64,7 @@ $(document).on('dblclick', async (event) => {
     // 모달창 세팅
     try {
       /* 공통 */
-      $('.avatar').attr("src", `https://web1.fasoo.com/Fasoo_Human_Resource_Management/photo/${user.sno}.jpg`)
+      $('.title--avatar').attr("src", `https://web1.fasoo.com/Fasoo_Human_Resource_Management/photo/${user.sno}.jpg`)
       $('.title--name').html('<b>' + user.kname + '</b>' + ' / ' + user.sno)
       $('.info--name').html(user.kname + ' / ' + user.ename)
       $('.info--dept').html(user.dept_name + 'ㆍ' + user.jikchk + 'ㆍ' + user.jikgub)
