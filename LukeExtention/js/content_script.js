@@ -10,10 +10,15 @@ $(document).on('scroll', function(){ // 스크롤 시 모달창 제거
   $('#modal').css('display', 'none')
 })
 
+$('.modal-body').on('scroll', function(){ // 스크롤 시 모달창 제거
+  $('#modal').css('display', 'none')
+})
+
 let userId = ""
 
 // 더블클릭
 $(document).on('dblclick', async (event) => {
+  console.log('dblclick ', event)
   let check = true
   let sameName = ""
 
@@ -29,6 +34,7 @@ $(document).on('dblclick', async (event) => {
   if (check) { // 모달창 더블클릭 제외
     let x = event.clientX + 10
     let y = event.clientY - 10
+    let screenY = event.screenY
     let windowX = window.innerWidth
     let windowY = window.innerHeight
     let directionX = false // true - 왼쪽방향
@@ -63,12 +69,13 @@ $(document).on('dblclick', async (event) => {
 
     // 모달창 세팅
     try {
-      /* 공통 */
-      $('.title--avatar').attr("src", `https://web1.fasoo.com/Fasoo_Human_Resource_Management/photo/${user.sno}.jpg`)
+      /* 공통 */      
+      $('.title--avatar').attr("src", `https://web1.fasoo.com/Fasoo_Human_Resource_Management/photo/${user.sno}.jpg`)      
       $('.title--name').html('<b>' + user.kname + '</b>' + ' / ' + user.sno)
       $('.info--name').html(user.kname + ' / ' + user.ename)
       $('.info--dept').html(user.dept_name + 'ㆍ' + user.jikchk + 'ㆍ' + user.jikgub)
-      $('.info--tel').html(user.tel_no)
+      if(user.tel_no) { $('.info--tel').html(user.tel_no) }
+      else { $('.info--tel').html('번호없음') }
       $('.info--email').html(`<a href="mailto:${user.emailaddr}">${user.emailaddr}</a>`)
       // icon
       $('.user_icon').attr('src', `${chrome.runtime.getURL("../images/user.png")}`)
@@ -97,7 +104,13 @@ $(document).on('dblclick', async (event) => {
         else { subY = 220 }
         $('#modal').css('top', y - subY)
       } else {
-        $('#modal').css('top', y)
+        if(y / 790 > 0){          
+          console.log(screenY + 250)
+          if((screenY + 250) > 1055) {            
+            $('#modal').css('top', y - subY)
+          }
+          else $('#modal').css('top', y)
+        }        
       }
 
       $('#modal').css('display', 'flex')
@@ -212,6 +225,8 @@ async function getUser(userName) {
   return data
 }
 
+let winRef;
+
 function getChat(userId) {  
   let url = `http://wrapsody.fasoo.com:9400/wrapmsgr/view/extension/convoPopup?userId2=${userId}`
 
@@ -220,7 +235,7 @@ function getChat(userId) {
     t = window.top.outerHeight / 2 + window.top.screenY - (h / 2),
     l = window.top.outerWidth / 2 + window.top.screenX - (w / 2);
 
-  let popupOption = "left=" + l + ",top=" + t + ",width=" + w + ",height=" + h + ",status=no,menubar=no,toolbar=no,resizable=yes";
-
-  window.open(url, 'chatBtn', popupOption);
+  let popupOption = "left=" + l + ",top=" + t + ",width=" + w + ",height=" + h + ",status=no,menubar=no,toolbar=no,resizable=yes";    
+  winRef = window.open(url, '_blank', popupOption);
+  console.log('winRef ',winRef)
 }

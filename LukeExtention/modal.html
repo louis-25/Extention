@@ -6,7 +6,7 @@
     <div id="modal">        
         <div class="title">
             <div class="title--left">
-                <div class="avatarBox"><img alt="avatar" class="title--avatar"></img></div>
+                <div class="avatarBox"><img class="title--avatar" alt="avatar" onerror="this.src='https://cdn2.iconfinder.com/data/icons/font-awesome/1792/user-512.png'"></img></div>
                 <div class="gunmu"></div>
             </div>
             <div class="title--right">
@@ -15,7 +15,7 @@
             </div>
         </div>
         
-        <div class="info">
+        <div class="modal--info">
             <div class="info--line"><img class="user_icon icon--size"><li class="info--name info--content">정동현 / Jung Dong Hyeon</li></div>
             <div class="info--line"><img class="building_icon icon--size"><li class="info--dept info--content">랩소디개발팀ㆍ팀원</li></div>
             <div class="info--line"><img class="phone_icon icon--size"><li class="info--tel info--content">010-8240-3912</li></div>
@@ -58,7 +58,7 @@
         box-shadow: 5px 5px 20px rgba(62, 63, 66, 0.12);
         display: none;
         flex-direction: column;
-        z-index: 9;
+        z-index: 10000;
     }    
 
     .title {
@@ -91,9 +91,11 @@
         height: 18px;
     }
 
-    .info {        
+    .modal--info {        
         margin-left: 15px;
         color: var(--color-balck);
+        font-family: NotoSans, Malgun Gothic;
+        /* font-weight: bold; */
     }
 
     .info--line {
@@ -101,12 +103,21 @@
         margin-bottom: 10px;
     }    
 
-    .info li {
+    .modal--info li {
         list-style: none;                     
     }    
 
     .info--content {
         margin-left: 7px;
+    }
+
+    .info--email {
+        color: var(--color-balck);
+    }
+
+    .modal--info div:nth-child(4) li a {
+        color: var(--color-balck);
+        text-decoration: none;
     }
 
     .avatarBox {

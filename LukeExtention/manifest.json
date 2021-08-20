@@ -10,7 +10,8 @@
   },  
   "background":{
     "persistent": true,
-    "scripts": ["js/background.js"] 
+    "scripts": ["js/background.js",
+    "js/permission.js"] 
   },
   "content_scripts": [
     {
@@ -18,6 +19,7 @@
         "https://*.fasoo.com/*",
         "http://*.fasoo.com/*"
       ],
+      "exclude_matches":["http://wrapsody.fasoo.com:7066/*"],
       "js": ["js/jquery-3.6.0.min.js","js/content_script.js"],
       "all_frames":true
     }
