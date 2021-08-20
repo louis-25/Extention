@@ -225,8 +225,6 @@ async function getUser(userName) {
   return data
 }
 
-let winRef;
-
 function getChat(userId) {  
   let url = `http://wrapsody.fasoo.com:9400/wrapmsgr/view/extension/convoPopup?userId2=${userId}`
 
@@ -236,6 +234,5 @@ function getChat(userId) {
     l = window.top.outerWidth / 2 + window.top.screenX - (w / 2);
 
   let popupOption = "left=" + l + ",top=" + t + ",width=" + w + ",height=" + h + ",status=no,menubar=no,toolbar=no,resizable=yes";    
-  winRef = window.open(url, '_blank', popupOption);
-  console.log('winRef ',winRef)
+  window.open(url, userId, popupOption)
 }
