@@ -1,1 +1,0 @@
-chrome.permissions.remove({origins: ['http://wrapsody.fasoo.com:7066/*']});

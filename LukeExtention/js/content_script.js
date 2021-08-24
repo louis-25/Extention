@@ -18,7 +18,7 @@ let userId = ""
 
 // 더블클릭
 $(document).on('dblclick', async (event) => {
-  console.log('dblclick ', event)
+  // console.log('dblclick ', event)
   let check = true
   let sameName = ""
 
@@ -225,13 +225,18 @@ async function getUser(userName) {
   return data
 }
 
-function getChat(userId) {  
+function getChat(userId) {    
   let url = `http://wrapsody.fasoo.com:9400/wrapmsgr/view/extension/convoPopup?userId2=${userId}`
 
   let w = 800,
-    h = 650,
-    t = window.top.outerHeight / 2 + window.top.screenY - (h / 2),
-    l = window.top.outerWidth / 2 + window.top.screenX - (w / 2);
+      h = 650,
+      t,l
+  try{
+  t = window.top.outerHeight / 2 + window.top.screenY - (h / 2),
+  l = window.top.outerWidth / 2 + window.top.screenX - (w / 2);
+  }catch(e){
+    console.log('E ',e)
+  }
 
   let popupOption = "left=" + l + ",top=" + t + ",width=" + w + ",height=" + h + ",status=no,menubar=no,toolbar=no,resizable=yes";    
   window.open(url, userId, popupOption)
