@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>       
 </head>
 <body>    
@@ -18,9 +18,10 @@
         <div class="modal--info">
             <div class="info--line"><img class="user_icon icon--size"><li class="info--name info--content">정동현 / Jung Dong Hyeon</li></div>
             <div class="info--line"><img class="building_icon icon--size"><li class="info--dept info--content">랩소디개발팀ㆍ팀원</li></div>
+            <div id="hero" class="info--line"><img class="hero_icon"/><img class="hero_img info--content" style="width:60px; height:13px; margin-top:3px"/></div>
             <div class="info--line"><img class="phone_icon icon--size"><li class="info--tel info--content">010-8240-3912</li></div>
             <div class="info--line"><img class="email_icon icon--size"><li class="info--email info--content">dongdev@fasoo.com</li></div>
-            <div id="hero" class="info--line"><img class="hero_icon"/><img class="hero_img info--content" style="width:60px; height:13px; margin-top:3px"/></div>
+            
         </div>
         
         <button class="chatBtn">1:1 채팅</button>        
@@ -107,6 +108,10 @@
         list-style: none;                     
     }    
 
+    #hero {
+        margin-left: 19px;
+    }
+
     .info--content {
         margin-left: 7px;
     }
@@ -115,7 +120,7 @@
         color: var(--color-balck);
     }
 
-    .modal--info div:nth-child(4) li a {
+    .modal--info li a {
         color: var(--color-balck);
         text-decoration: none;
     }
@@ -147,5 +152,10 @@
         margin: 2% auto 5%;         
         cursor: pointer;
     }    
+
+    .chatBtn:hover {
+        background-color: var(--color-blue);
+    }
+
 </style>
 </html>

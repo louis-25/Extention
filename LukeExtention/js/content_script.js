@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
   fetch(chrome.runtime.getURL('/modal.html')).then(r => r.text()).then(html => {
-    document.body.insertAdjacentHTML('beforeend', html); // 모달창html 삽입
+    document.body.insertAdjacentHTML('beforeend', html); // 모달창html 삽입    
   });
 })
 
@@ -58,17 +58,21 @@ $(document).on('dblclick', async (event) => {
     }
     // API호출
     let arr = ['A', 'B', 'C', 'D'] // 이름에 포함돼있으면 동명이인
-    let user = await getUser(name.trim()).catch(e => { console.log(e) })
+    let user = await getUser(name.trim()).catch(e => {console.log(e)})
     if(arr.includes(abc)){
       user = await getUser(name+abc).catch(e => { console.log(e) })
     }
     else if (sameName[1] && user && arr.includes(sameName[1].charAt(sameName[1].length - 1))) {      
       user = await getUser(sameName[1]).catch(e => { console.log(e) })
     }
+    
     this.userId = (user.emailaddr).split('@')[0] // 이메일ID 추출
 
     // 모달창 세팅
     try {
+      let subX = 285
+      let subY = 220
+      if(user) {
       /* 공통 */      
       $('.title--avatar').attr("src", `https://web1.fasoo.com/Fasoo_Human_Resource_Management/photo/${user.sno}.jpg`)      
       $('.title--name').html('<b>' + user.kname + '</b>' + ' / ' + user.sno)
@@ -82,15 +86,20 @@ $(document).on('dblclick', async (event) => {
       $('.building_icon').attr('src', `${chrome.runtime.getURL("../images/building.png")}`)
       $('.phone_icon').attr('src', `${chrome.runtime.getURL("../images/phone.png")}`)
       $('.email_icon').attr('src', `${chrome.runtime.getURL("../images/email.png")}`)
-
+      
+      $('.modal--info').css('display','block')
+      $('.avatarBox').css('display','block')    
+      $('.title--gnmu').css('display','block')
+      $('.gnmu').css('display','block')
+      $('.modal--info').css('display','block')
+      $('.chatBtn').css('display','block')
       /* Hero 구분 */
       setHeroState(user.hero_code)
 
       /* 근무상태 구분 */
       setGunState(user.gun_code)
-
-      let subX = 285
-      let subY = 220
+      }      
+      
 
       /* 모달창 보이기 */
       if (directionX) {
@@ -100,8 +109,8 @@ $(document).on('dblclick', async (event) => {
       }
 
       if (directionY) {
-        if (user.hero_code == 1) { subY += 28 }
-        else { subY = 220 }
+        // if (user.hero_code == 1) { subY += 28 }
+        // else { subY = 220 }
         $('#modal').css('top', y - subY)
       } else {
         if(y / 790 > 0){          
@@ -110,7 +119,7 @@ $(document).on('dblclick', async (event) => {
             $('#modal').css('top', y - subY)
           }
           else $('#modal').css('top', y)
-        }        
+        }
       }
 
       $('#modal').css('display', 'flex')
@@ -147,9 +156,17 @@ function setHeroState(hero_code) {
   if (hero_code == 0) { // 일반사원
     $('#hero').css('display', 'none')
   }
-  else if (hero_code == 1) { // 히어로
-    $('.hero_icon').attr('src', `${chrome.runtime.getURL("../images/hero_icon.png")}`)
-    $('.hero_img').attr('src', `${chrome.runtime.getURL("../images/hero.png")}`)
+  else if (hero_code == 1) { // Valuemaker
+    $('.hero_img').attr('src', `${chrome.runtime.getURL("../images/hero_valuemaker.png")}`)    
+  }
+  else if (hero_code == 2) { // Collective Creater
+    $('.hero_img').attr('src', `${chrome.runtime.getURL("../images/hero_collective.png")}`)    
+  }
+  else if (hero_code == 3) { // Challenger
+    $('.hero_img').attr('src', `${chrome.runtime.getURL("../images/hero_challenger.png")}`)    
+  }
+  if(hero_code > 0) {
+    // $('.hero_icon').attr('src', `${chrome.runtime.getURL("../images/hero_icon.png")}`)
     $('#hero').css('display', 'flex')
   }
 }
@@ -187,6 +204,9 @@ function setGunState(gun_code) {
     case '7':
       $('.title--gnmu').html('공가오전+반차')
       break;
+    case '8':
+      $('.title--gnmu').html('반차+공가오후')
+      break;
     case '10':
       $('.title--gnmu').html('공가')
       break;
@@ -195,6 +215,18 @@ function setGunState(gun_code) {
       break;
     case '12':
       $('.title--gnmu').html('공가(오후)')
+      break;
+    case '13':
+      $('.title--gnmu').html('육아휴직')
+      break;
+    case '14':
+      $('.title--gnmu').html('병가')
+      break;
+    case '15':
+      $('.title--gnmu').html('휴직')
+      break;
+    case '16':
+      $('.title--gnmu').html('고객사 상주')
       break;
   }
 }
@@ -236,8 +268,7 @@ function getChat(userId) {
   l = window.top.outerWidth / 2 + window.top.screenX - (w / 2);
   }catch(e){
     console.log('E ',e)
-  }
-
+  }  
   let popupOption = "left=" + l + ",top=" + t + ",width=" + w + ",height=" + h + ",status=no,menubar=no,toolbar=no,resizable=yes";    
   window.open(url, userId, popupOption)
 }
