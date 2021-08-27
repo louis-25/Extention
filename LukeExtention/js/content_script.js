@@ -98,7 +98,7 @@ $(document).on('dblclick', async (event) => {
 
       /* 근무상태 구분 */
       setGunState(user.gun_code)
-      }      
+      }
       
 
       /* 모달창 보이기 */
@@ -108,13 +108,10 @@ $(document).on('dblclick', async (event) => {
         $('#modal').css('left', x)
       }
 
-      if (directionY) {
-        // if (user.hero_code == 1) { subY += 28 }
-        // else { subY = 220 }
+      if (directionY) {        
         $('#modal').css('top', y - subY)
       } else {
         if(y / 790 > 0){          
-          console.log(screenY + 250)
           if((screenY + 250) > 1055) {            
             $('#modal').css('top', y - subY)
           }
@@ -131,7 +128,7 @@ $(document).on('dblclick', async (event) => {
 
 // 클릭
 $(document).on('click', (e) => {
-  console.log('click ', e)
+  // console.log('click ', e)
   let check = true
   
   for (let path in e.originalEvent.path) { // 클릭요소가 모달창인지 구분
@@ -238,11 +235,11 @@ function selectText() {
   if (window.getSelection) {
     selectionText = window.getSelection().toString().trim()
     sameName = window.getSelection().baseNode.nodeValue
-    console.log('window.getSelection ', window.getSelection())
-    console.log('selectname ',sameName)
+    // console.log('window.getSelection ', window.getSelection())
+    // console.log('selectname ',sameName)
 
   } else if (window.selection) {
-    console.log('window.selection ', window.selection)
+    // console.log('window.selection ', window.selection)
     selectionText = window.selection.createRange().text
   }
   return [selectionText, sameName]
@@ -252,7 +249,7 @@ async function getUser(userName) {
   let response = await fetch('https://web2.fasoo.com/FiresideAPI/api/user/' + userName)
   let arr = await response.json()
   let data = arr.items[0]
-  console.log('data ', data)
+  // console.log('data ', data)
 
   return data
 }

@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
-  "name": "Fireside Extensions",  
-  "title": "Fireside Extensions",
+  "name": "Fireside Extension",  
+  "title": "Fireside Extension",
   "version": "1.0",
   "author": "정동현",
   "description" : "더블클릭으로 동작",
   "browser_action": {
     "default_popup": "popup.html",
-    "default_title": "Fireside Extensions",
+    "default_title": "Fireside Extension",
     "default_icon": "icon/fireside.png"
   },  
   "background":{
@@ -41,8 +41,6 @@
     "128":"icon/fireside.png"
   },
   "permissions": [
-    "activeTab",
-    "tabs",
     "https://*.fasoo.com/*",
     "http://*.fasoo.com/*"
   ]
