@@ -1,0 +1,47 @@
+{
+  "manifest_version": 2,
+  "name": "Fireside Extension",  
+  "title": "Fireside Extension",
+  "version": "1.1",
+  "author": "정동현",
+  "description" : "더블클릭으로 동작",
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Fireside Extension",
+    "default_icon": "icon/fireside.png"
+  },  
+  "background":{
+    "persistent": true,
+    "scripts": ["js/background.js"] 
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.fasoo.com/*",
+        "http://*.fasoo.com/*"
+      ],
+      "exclude_matches":["http://wrapsody.fasoo.com:7066/*"],
+      "js": ["js/jquery-3.6.0.min.js","js/content_script.js"],
+      "all_frames":true
+    }
+  ],
+  "web_accessible_resources":[
+    "modal.html",
+    "images/building.png",
+    "images/user.png",
+    "images/hero_valuemaker.png",
+    "images/hero_challenger.png",
+    "images/hero_collective.png",
+    "images/hero_icon.png",
+    "images/phone.png",
+    "images/mobilephone.png",
+    "images/email.png"
+  ],
+  "icons":{
+    "128":"icon/fireside.png"
+  },
+  "permissions": [
+    "https://*.fasoo.com/*",
+    "http://*.fasoo.com/*"
+  ]
+}
